@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Calculator | Major Project</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .calculator {
+            width: 350px; /* Slightly increased size */
+            border-radius: 10px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen {
+            background-color: #343a40;
+            color: white;
+            height: 70px; /* Increased screen height */
+            text-align: right;
+            font-size: 2.5rem; /* Larger font */
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            height: 60px;
+            font-size: 1.6rem;
+            margin: 5px;
+            flex: 1;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Reduce font size for Num Lock button */
+        .numlock-btn {
+            font-size: 1.1rem; /* Smaller font for Num Lock */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="screen" id="result">0</div>
+    <div class="button-row">
+        <button class="btn btn-light button numlock-btn" onclick="toggleNumLock()">Num Lock</button>
+        <button class="btn btn-light button" onclick="clearScreen()">CE</button>
+        <button class="btn btn-light button" onclick="deleteLast()">Del</button>
+        <button class="btn btn-light button" onclick="appendValue('/')">/</button>
+    </div>
+    <div class="button-row">
+        <button class="btn btn-light button" onclick="appendValue('7')">7</button>
+        <button class="btn btn-light button" onclick="appendValue('8')">8</button>
+        <button class="btn btn-light button" onclick="appendValue('9')">9</button>
+        <button class="btn btn-light button" onclick="appendValue('×')">×</button>
+    </div>
+    <div class="button-row">
+        <button class="btn btn-light button" onclick="appendValue('4')">4</button>
+        <button class="btn btn-light button" onclick="appendValue('5')">5</button>
+        <button class="btn btn-light button" onclick="appendValue('6')">6</button>
+        <button class="btn btn-light button" onclick="appendValue('-')">-</button>
+    </div>
+    <div class="button-row">
+        <button class="btn btn-light button" onclick="appendValue('1')">1</button>
+        <button class="btn btn-light button" onclick="appendValue('2')">2</button>
+        <button class="btn btn-light button" onclick="appendValue('3')">3</button>
+        <button class="btn btn-light button" onclick="appendValue('+')">+</button>
+    </div>
+    <div class="button-row">
+        <button class="btn btn-light button" onclick="appendValue('0')">0</button>
+        <button class="btn btn-light button" onclick="appendValue('.')">.</button>
+        <button class="btn btn-light button" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    let screen = document.getElementById('result');
+    let numLockEnabled = true; // NumLock state
+
+    function appendValue(value) {
+        if (!numLockEnabled && !isNaN(value)) {
+            return; // Disable number input when Num Lock is off
+        }
+
+        if (screen.innerText === '0' && value !== '.') {
+            screen.innerText = value;
+        } else {
+            screen.innerText += value;
+        }
+    }
+
+    function clearScreen() {
+        screen.innerText = '0';
+    }
+
+    function deleteLast() {
+        if (screen.innerText.length === 1) {
+            screen.innerText = '0';
+        } else {
+            screen.innerText = screen.innerText.slice(0, -1);
+        }
+    }
+
+    function calculate() {
+        try {
+            let expression = screen.innerText.replace('×', '*'); // Replace × with *
+            screen.innerText = eval(expression);
+        } catch (e) {
+            screen.innerText = 'Error';
+        }
+    }
+
+    function toggleNumLock() {
+        numLockEnabled = !numLockEnabled;
+        alert(numLockEnabled ? 'Num Lock Enabled' : 'Num Lock Disabled');
+    }
+</script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
